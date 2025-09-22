@@ -1,21 +1,40 @@
-// Jenkinsfile
 pipeline {
     agent any
+
     stages {
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo 'Building the project...'
+                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
             }
         }
-        stage('Test') {
+
+        stage('Backend - Install & Run') {
             steps {
-                echo 'Running tests...'
+                dir('backend') {
+                    sh 'npm install'
+                    // Run backend on port 5000 (or whatever you set in package.json)
+                    sh 'nohup npm start > backend.log 2>&1 &'
+                }
             }
         }
-        stage('Deploy') {
+
+        stage('Frontend - Install & Run') {
             steps {
-                echo 'Deploying the project...'
+                dir('frontend') {
+                    sh 'npm install'
+                    // Run frontend on port 3000 (or whatever you set in package.json)
+                    sh 'nohup npm start > frontend.log 2>&1 &'
+                }
             }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Frontend (port 3000) and Backend (port 5000) are running!"
+        }
+        failure {
+            echo "❌ Build failed — check console output."
         }
     }
 }
