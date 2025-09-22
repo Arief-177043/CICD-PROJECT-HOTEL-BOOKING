@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/your-repo.git'
+                git branch: 'main', url: 'https://github.com/Arief-177043/CICD-PROJECT-HOTEL-BOOKING.git'
             }
         }
 
@@ -12,7 +12,6 @@ pipeline {
             steps {
                 dir('backend') {
                     sh 'npm install'
-                    // Run backend on port 5000 (or whatever you set in package.json)
                     sh 'nohup npm start > backend.log 2>&1 &'
                 }
             }
@@ -22,19 +21,9 @@ pipeline {
             steps {
                 dir('frontend') {
                     sh 'npm install'
-                    // Run frontend on port 3000 (or whatever you set in package.json)
                     sh 'nohup npm start > frontend.log 2>&1 &'
                 }
             }
-        }
-    }
-
-    post {
-        success {
-            echo "✅ Frontend (port 3000) and Backend (port 5000) are running!"
-        }
-        failure {
-            echo "❌ Build failed — check console output."
         }
     }
 }
