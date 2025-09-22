@@ -11,8 +11,8 @@ pipeline {
         stage('Backend - Install & Run') {
             steps {
                 dir('backend') {
-                    sh 'npm install'
-                    sh 'nohup npm start > backend.log 2>&1 &'
+                    bat 'npm install'
+                    bat 'start /B npm start > backend.log 2>&1'
                 }
             }
         }
@@ -20,8 +20,8 @@ pipeline {
         stage('Frontend - Install & Run') {
             steps {
                 dir('frontend') {
-                    sh 'npm install'
-                    sh 'nohup npm start > frontend.log 2>&1 &'
+                    bat 'npm install'
+                    bat 'start /B npm start > frontend.log 2>&1'
                 }
             }
         }
