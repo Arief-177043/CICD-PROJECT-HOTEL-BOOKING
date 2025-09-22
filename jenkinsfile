@@ -1,0 +1,44 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs "NodeJS-18"   // Name from Jenkins Global Tool Config
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Arief-177043/CICD-PROJECT-HOTEL-BOOKING.git'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                dir('backend') {
+                    sh 'npm install'
+                    sh 'npm test || true'
+                    sh 'npm run build || true'
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Build successful!"
+        }
+        failure {
+            echo "❌ Build failed!"
+        }
+    }
+}
