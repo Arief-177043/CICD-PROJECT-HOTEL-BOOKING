@@ -8,19 +8,21 @@ pipeline {
             }
         }
 
-stage('Backend - Build & Run') {
-    dir('backend') {
-        bat 'mvnw clean install -DskipTests'
-        bat 'mvnw spring-boot:run &'
-    }
-}
+        stage('Backend - Build & Run') {
+            steps {
+                dir('backend') {
+                    bat 'mvnw clean install -DskipTests'
+                    bat 'start /B mvnw spring-boot:run'
+                }
+            }
+        }
 
-
-        stage('Frontend - Install & Run') {
+        stage('Frontend - Install & Build') {
             steps {
                 dir('frontend') {
                     bat 'npm install'
-                    bat 'start /B npm start > frontend.log 2>&1'
+                    bat 'npm run build'
+                    bat 'start /B npm start'
                 }
             }
         }
