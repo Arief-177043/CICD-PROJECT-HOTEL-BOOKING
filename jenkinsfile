@@ -2,26 +2,20 @@
 pipeline {
     agent any
     stages {
-        stage('Clone') {
+        stage('Build') {
             steps {
-                git 'https://github.com/Arief-177043/CICD-PROJECT-HOTEL-BOOKING'
+                echo 'Building...'
             }
         }
-        stage('Build Backend') {
+        stage('Test') {
             steps {
-                dir('backend') {
-                    sh './mvnw clean package'
-                }
+                echo 'Testing...'
             }
         }
-        stage('Build Frontend') {
+        stage('Deploy') {
             steps {
-                dir('frontend') {
-                    sh 'npm install'
-                    sh 'npm run build'
-                }
+                echo 'Deploying...'
             }
         }
-        // Add more stages for Docker build, test, deploy, etc.
     }
 }
