@@ -8,14 +8,13 @@ pipeline {
             }
         }
 
-        stage('Backend - Install & Run') {
-            steps {
-                dir('backend') {
-                    bat 'npm install'
-                    bat 'start /B npm start > backend.log 2>&1'
-                }
-            }
-        }
+stage('Backend - Build & Run') {
+    dir('backend') {
+        bat 'mvnw clean install -DskipTests'
+        bat 'mvnw spring-boot:run &'
+    }
+}
+
 
         stage('Frontend - Install & Run') {
             steps {
